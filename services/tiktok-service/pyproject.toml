@@ -1,0 +1,25 @@
+[project]
+name = "tiktok-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "LLSWE", email = "tiilas777@gmail.com" }]
+dependencies = [
+  "fastapi[standard]>=0.141.1",
+  "kafka-python>=3.0.11",
+  "pydantic>=2.13.4",
+  "tiktoklive>=7.0.0",
+  "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+tiktok-service = "tiktok_service.main:main"
+tiktok-worker = "tiktok_service.worker:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pyright]
+include = ["src"]
