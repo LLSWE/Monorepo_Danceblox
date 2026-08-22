@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     api_key: str
 
     tiktok_user_id: str
+    kafka_url: str
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

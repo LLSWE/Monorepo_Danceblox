@@ -3,11 +3,13 @@ import traceback
 
 from TikTokLive import TikTokLiveClient
 from TikTokLive.events import CommentEvent
+from kafka import KafkaProducer
 from tiktok_service.config import settings
+from tiktok_service.model.message import KafkaMessage
+from tiktok_service.service.producer import connect_kafka, send_message
 
 
-async def create_ttk_client(user_id: str):
-    client = TikTokLiveClient(unique_id=user_id)
+async def run_ttk_msg_scanner(client: TikTokLiveClient, kafka: KafkaProducer):
 
     @client.on(CommentEvent)
     async def on_comment(event: CommentEvent):
@@ -21,13 +23,20 @@ async def create_ttk_client(user_id: str):
 
         print(f"{user} commented {event.comment}")
 
+        payload = KafkaMessage(user_id=user, user_nickname=event.comment)
+        send_message(kafka, payload)
+
     await client.connect()
 
 
 async def worker():
     try:
         print("Starting TikTok client...")
-        await create_ttk_client(settings.tiktok_user_id)
+
+        kafka = connect_kafka(settings.kafka_url)
+        client = TikTokLiveClient(unique_id=settings.tiktok_user_id)
+        await run_ttk_msg_scanner(client, kafka)
+
         print("Ending TikTok client...")
     except Exception:
         traceback.print_exc()
