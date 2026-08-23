@@ -7,6 +7,7 @@ requires-python = ">=3.10"
 authors = [{ name = "LLSWE", email = "tiilas777@gmail.com" }]
 dependencies = [
   "fastapi[standard]>=0.141.1",
+  "httpx>=0.28.1",
   "kafka-python>=3.0.11",
   "pydantic>=2.13.4",
   "uvicorn>=0.52.4",

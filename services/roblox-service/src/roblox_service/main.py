@@ -1,5 +1,6 @@
 from collections import deque
 
+from httpx import AsyncClient
 from roblox_service.config import Settings
 from roblox_service.infra.http import run_server
 from roblox_service.model.message import KafkaMessage
@@ -10,7 +11,8 @@ def main():
     settings = Settings()  # type: ignore[call-arg]
     kafka = connect_kafka(settings.kafka_url)
     event_queue: deque[KafkaMessage] = deque()
-    run_server(settings=settings, kafka=kafka, event_queue=event_queue)
+    client = AsyncClient()
+    run_server(settings=settings, client=client, kafka=kafka, event_queue=event_queue)
 
 
 if __name__ == "__main__":

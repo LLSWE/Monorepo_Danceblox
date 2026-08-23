@@ -1,7 +1,9 @@
 from collections import deque
 import json
+from httpx import AsyncClient
 from kafka import KafkaConsumer
 from roblox_service.model.message import KafkaMessage
+from roblox_service.service.username import get_user_by_name
 
 
 def push_events(event: KafkaMessage, event_queue: deque[KafkaMessage]):
@@ -27,6 +29,21 @@ def connect_kafka(kafka_url: str) -> KafkaConsumer:
     return producer
 
 
-def extract_msg(kafka: KafkaConsumer, event_queue: deque[KafkaMessage]):
+async def extract_msg(
+    client: AsyncClient, kafka: KafkaConsumer, event_queue: deque[KafkaMessage]
+):
     for msg in kafka:
-        push_events(event=deserialize_msg(msg.value), event_queue=event_queue)
+        kafka_json = deserialize_msg(msg.value)
+        user_roblox_id = await get_user_by_name(
+            client=client, username=kafka_json.user_nickname
+        )
+        if user_roblox_id is None:
+            continue
+
+        tranformed_msg = KafkaMessage(
+            event_id=kafka_json.event_id,
+            user_id=kafka_json.user_id,
+            user_nickname=str(user_roblox_id),
+        )
+
+        push_events(event=tranformed_msg, event_queue=event_queue)

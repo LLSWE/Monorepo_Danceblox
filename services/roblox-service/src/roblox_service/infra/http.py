@@ -1,5 +1,7 @@
+import asyncio
 from collections import deque
 from threading import Thread
+from httpx import AsyncClient
 from kafka import KafkaConsumer
 from roblox_service.model.message import KafkaMessage
 from roblox_service.service.consumer import extract_msg, pop_events
@@ -9,11 +11,17 @@ from roblox_service.config import Settings
 
 
 def run_server(
-    settings: Settings, kafka: KafkaConsumer, event_queue: deque[KafkaMessage]
+    settings: Settings,
+    client: AsyncClient,
+    kafka: KafkaConsumer,
+    event_queue: deque[KafkaMessage],
 ):
     app = FastAPI()
 
-    consumer_thread = Thread(target=extract_msg, args=(kafka, event_queue))
+    def run_extract_msg(client, kafka, event_queue):
+        asyncio.run(extract_msg(client, kafka, event_queue))
+
+    consumer_thread = Thread(target=run_extract_msg, args=(client, kafka, event_queue))
 
     consumer_thread.start()
 
