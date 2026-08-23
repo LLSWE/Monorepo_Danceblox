@@ -10,4 +10,4 @@ def run_server(settings: Settings):
     def hello_handler():
         return {"Hello": "World"}
 
-    uvicorn.run(app, port=settings.api_port)
+    uvicorn.run(app, host="0.0.0.0", port=settings.api_port)
