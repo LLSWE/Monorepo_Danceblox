@@ -1,0 +1,62 @@
+services:
+    # tiktok-service:
+    #   container_name: "tiktok-service"
+    #   env_file: ./services/tiktok-service/.env
+    #   build:
+    #     context: ./services/tiktok-service/
+    #     dockerfile: Dockerfile
+    #   restart: unless-stopped
+    #   ports: 
+    #     - "7101:7101" 
+    tiktok-worker:
+      container_name: "tiktok-worker"
+      env_file: ./services/tiktok-service/.env
+      build:
+        context: ./services/tiktok-service/
+        dockerfile: Worker.Dockerfile
+      restart: unless-stopped
+      tty: true
+      stdin_open: true
+
+    roblox-service:
+      container_name: "roblox-service"
+      env_file: ./services/roblox-service/.env
+      build:
+        context: ./services/roblox-service/
+        dockerfile: Dockerfile
+      restart: unless-stopped
+      ports: 
+        - "7102:7102" 
+      tty: true
+      stdin_open: true
+
+
+    broker:
+      image: apache/kafka:latest
+      container_name: broker
+
+      environment:
+        KAFKA_NODE_ID: 1
+        KAFKA_PROCESS_ROLES: broker,controller
+
+        KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
+
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,EXTERNAL://localhost:29092
+
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+        KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+        KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+        KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+        KAFKA_NUM_PARTITIONS: 3
+
+      ports:
+        - "29092:29092"
+
+      restart: unless-stopped

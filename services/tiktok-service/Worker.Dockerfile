@@ -14,4 +14,4 @@ COPY . .
 
 RUN uv sync --frozen --no-dev
 
-CMD ["uv", "run", "python", "-u" ,"-m", "tiktok_service.worker"]
+CMD ["uv", "run", "tiktok-worker"]

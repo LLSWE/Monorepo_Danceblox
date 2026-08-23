@@ -14,4 +14,4 @@ COPY . .
 
 RUN uv sync --frozen --no-dev
 
-CMD ["uv", "run", "python", "-u" ,"-m", "roblox_service.main"]
+CMD ["uv", "run", "roblox-service"]
