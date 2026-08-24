@@ -1,13 +1,49 @@
 local HttpService = game:GetService("HttpService")
 
-local RobloxApi = {}
+local Avatar = require(script.Parent.services.Avatar)
+local Dance = require(script.Parent.services.Dance)
 
-function RobloxApi.getEvents()
-    local response = HttpService:GetAsync(
-        "http://localhost:7102/events"
-    )
 
-    return HttpService:JSONDecode(response)
+while true do
+	local ok, response = pcall(function()
+		return HttpService:GetAsync(
+			"http://roblox-service:7102/events"
+		)
+	end)
+
+	if ok then
+		local events = HttpService:JSONDecode(response)
+
+		for _, event in events do
+			print("TikTok:", event.user_id)
+			print("Roblox UserId:", event.user_nickname)
+
+			local userId = tonumber(event.user_nickname)
+
+			if not userId then
+				warn("UserId inválido:", event.user_nickname)
+				continue
+			end
+
+			local avatar = Avatar.create(userId)
+
+			if not avatar then
+				continue
+			end
+
+			local humanoid = avatar:FindFirstChildOfClass("Humanoid")
+
+			if not humanoid then
+				warn("Avatar não possui Humanoid:", userId)
+				avatar:Destroy()
+				continue
+			end
+
+			Dance.play(humanoid, "507771019")
+		end
+	else
+		warn("Erro buscando eventos:", response)
+	end
+
+	task.wait(1)
 end
-
-return RobloxApi
