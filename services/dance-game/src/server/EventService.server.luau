@@ -23,7 +23,7 @@ while true do
 		local events = HttpService:JSONDecode(response)
 
 		for _, event in events do
-			print("TikTok:", event.user_id)
+			print("TikTok:", event.ttk_user_id)
 			print("Roblox UserId:", event.user_nickname)
 
 			local userId = tonumber(event.user_nickname)
