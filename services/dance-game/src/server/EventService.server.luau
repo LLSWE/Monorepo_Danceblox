@@ -1,8 +1,9 @@
 local HttpService = game:GetService("HttpService")
 
-local Avatar = require(script.Parent.services.Avatar)
-local Dance = require(script.Parent.services.Dance)
+local Avatar = require(script.Parent.services.AvatarService)
+local Dance = require(script.Parent.services.AnimationService)
 
+print("EVENTO DEVERIA RODAR AGORA ...")
 
 while true do
 	local ok, response = pcall(function()
