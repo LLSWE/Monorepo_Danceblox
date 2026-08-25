@@ -42,8 +42,9 @@ async def extract_msg(
 
         tranformed_msg = KafkaMessage(
             event_id=kafka_json.event_id,
-            user_id=kafka_json.user_id,
-            user_nickname=str(user_roblox_id),
+            ttk_user_id=kafka_json.user_id,
+            user_id=str(user_roblox_id),
+            user_nickname=kafka_json.user_nickname,
         )
 
         push_events(event=tranformed_msg, event_queue=event_queue)
