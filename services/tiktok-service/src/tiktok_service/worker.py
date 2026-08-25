@@ -25,7 +25,7 @@ async def run_ttk_msg_scanner(client: TikTokLiveClient, kafka: KafkaProducer):
         print(f"{user} commented {event.comment}")
 
         payload = KafkaMessage(
-            event_id=uuid4(), user_id=user, user_nickname=event.comment
+            event_id=uuid4(), ttk_user_id=user, user_id="", user_nickname=event.comment
         )
         send_message(kafka, payload)
 
