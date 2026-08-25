@@ -8,12 +8,18 @@ print("EVENTO DEVERIA RODAR AGORA ...")
 while true do
 	print("CHAMANDDO HTTP ....")
 	local ok, response = pcall(function()
-		return HttpService:GetAsync(
+    print("ANTES DO GET")
+		local result = HttpService:GetAsync(
 			"http://10.0.2.2:7102/events"
 		)
+    print("DEPOIS DO GET")
+    return result
 	end)
 
+  print("PCALL TERMINOU")
+
 	if ok then
+    print("RESPONSE: ", response)
 		local events = HttpService:JSONDecode(response)
 
 		for _, event in events do
