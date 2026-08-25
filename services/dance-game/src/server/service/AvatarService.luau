@@ -3,7 +3,7 @@ local Workspace = game:GetService("Workspace")
 
 local Avatar = {}
 
-local function createAvatar(userId: number)
+function Avatar.create(userId: number)
 	local ok, description = pcall(function()
 		return Players:GetHumanoidDescriptionFromUserIdAsync(userId)
 	end)

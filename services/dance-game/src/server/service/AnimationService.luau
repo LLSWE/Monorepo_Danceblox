@@ -1,6 +1,6 @@
 local Dance= {}
 
-local function playDance(humanoid: Humanoid)
+function Dance.play(humanoid: Humanoid)
 	local animator = humanoid:FindFirstChildOfClass("Animator")
 
 	if not animator then

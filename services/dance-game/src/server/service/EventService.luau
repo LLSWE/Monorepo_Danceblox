@@ -7,7 +7,7 @@ local Dance = require(script.Parent.services.Dance)
 while true do
 	local ok, response = pcall(function()
 		return HttpService:GetAsync(
-			"http://roblox-service:7102/events"
+			"http://10.0.2.2:7102/events"
 		)
 	end)
 
@@ -39,7 +39,7 @@ while true do
 				continue
 			end
 
-			Dance.play(humanoid, "507771019")
+			Dance.play(humanoid)
 		end
 	else
 		warn("Erro buscando eventos:", response)
