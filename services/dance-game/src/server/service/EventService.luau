@@ -1,12 +1,11 @@
 local HttpService = game:GetService("HttpService")
 
-local Avatar = require(script.Parent.service.AvatarService)
-local Dance = require(script.Parent.service.AnimationService)
+local Avatar = require(script.Parent.services.Avatar)
+local Dance = require(script.Parent.services.Dance)
 
-print("EVENTO DEVERIA RODAR AGORA ...")
-
+print("Running Event script")
 while true do
-	print("CHAMANDDO HTTP ....")
+	print("Event Loop running")
 	local ok, response = pcall(function()
 		return HttpService:GetAsync(
 			"http://10.0.2.2:7102/events"
@@ -45,8 +44,7 @@ while true do
 		end
 	else
 		warn("Erro buscando eventos:", response)
-		print(response)
 	end
 
-	task.wait(5)
+	task.wait(1)
 end
