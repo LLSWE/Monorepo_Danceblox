@@ -1,9 +1,11 @@
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 
+local Arena = require(script.Parent.ArenaService)
+
 local Avatar = {}
 
-function Avatar.create(userId: number,userName: string)
+function Avatar.create(userId: number, userName: string)
 	local ok, description = pcall(function()
 		return Players:GetHumanoidDescriptionFromUserIdAsync(userId)
 	end)
@@ -26,10 +28,15 @@ function Avatar.create(userId: number,userName: string)
 	end
 
 	model.Name = tostring(userName)
+
+	model:SetAttribute("UserId", userId)
+	model:SetAttribute("Username", userName)
+
 	model.Parent = Workspace
+
+	Arena.register(model)
 
 	return model
 end
-
 
 return Avatar
