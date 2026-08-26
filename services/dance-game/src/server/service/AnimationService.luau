@@ -9,7 +9,7 @@ function Dance.play(humanoid: Humanoid)
 	end
 
 	local animation = Instance.new("Animation")
-  animation.AnimationId = "rbxassetid://507771019"
+  animation.AnimationId = "rbxassetid://75125571025711"
 
 	local track = animator:LoadAnimation(animation)
 	track.Looped = true
