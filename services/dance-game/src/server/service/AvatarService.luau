@@ -3,7 +3,7 @@ local Workspace = game:GetService("Workspace")
 
 local Avatar = {}
 
-function Avatar.create(userId: number)
+function Avatar.create(userId: number,userName: string)
 	local ok, description = pcall(function()
 		return Players:GetHumanoidDescriptionFromUserIdAsync(userId)
 	end)
@@ -25,7 +25,7 @@ function Avatar.create(userId: number)
 		return nil
 	end
 
-	model.Name = "TikTok_" .. tostring(userId)
+	model.Name = tostring(userName)
 	model.Parent = Workspace
 
 	return model

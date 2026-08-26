@@ -26,14 +26,15 @@ while true do
 			print("TikTok:", event.ttk_user_id)
 			print("Roblox UserId:", event.user_nickname)
 
-			local userId = tonumber(event.user_nickname)
+			local userId = tonumber(event.user_id)
+			local userName = tostring(event.user_nickname)
 
 			if not userId then
-				warn("UserId inválido:", event.user_nickname)
+				warn("UserId inválido:", event.user_id)
 				continue
 			end
 
-			local avatar = Avatar.create(userId)
+			local avatar = Avatar.create(userId,userName)
 
 			if not avatar then
 				continue
@@ -54,5 +55,5 @@ while true do
 		print(response)
 	end
 
-	task.wait(5)
+	task.wait(3)
 end
