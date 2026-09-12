@@ -1,5 +1,9 @@
-local Camera = require(script.Parent.service.CameraService)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-print("DanceBlox client iniciado")
+local Camera = require(
+	ReplicatedStorage.Shared.CameraService
+)
+
+print("CAMERA INICIADA")
 
 Camera.init()

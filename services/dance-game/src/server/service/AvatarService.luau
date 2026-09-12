@@ -32,8 +32,15 @@ function Avatar.create(userId: number, userName: string)
 	model:SetAttribute("UserId", userId)
 	model:SetAttribute("Username", userName)
 
-	model.Parent = Workspace
+	local spawnPosition = Arena.getSpawnPosition()
 
+	model:PivotTo(
+		CFrame.lookAt(
+			spawnPosition,
+			spawnPosition + Vector3.new(0, 0, 1)
+		)
+	)
+	model.Parent = Workspace
 	Arena.register(model)
 
 	return model
