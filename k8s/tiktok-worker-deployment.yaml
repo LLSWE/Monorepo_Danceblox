@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.38.0 (a8f5d1cbd)
+  labels:
+    io.kompose.service: tiktok-worker
+  name: tiktok-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: tiktok-worker
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.38.0 (a8f5d1cbd)
+      labels:
+        io.kompose.service: tiktok-worker
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: services-tiktok-service--env
+          image: tiktok-worker
+          name: tiktok-worker
+          stdin: true
+          tty: true
+      restartPolicy: Always

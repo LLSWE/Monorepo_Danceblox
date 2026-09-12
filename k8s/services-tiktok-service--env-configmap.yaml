@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  API_KEY: vY9o4hwlJbsXqkkiFVPm3WjTH14GB5gW1TK/Fhzrgi/kUmiY/rxgxcDhdOBNgCH3gC0Gc9Vj13HOJHRz8xt0cw==
+  API_PORT: "7101"
+  KAFKA_URL: broker:9092
+  TIKTOK_USER_ID: raissaesmagaeles
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: tiktok-worker-services-tiktok-service--env
+  name: services-tiktok-service--env

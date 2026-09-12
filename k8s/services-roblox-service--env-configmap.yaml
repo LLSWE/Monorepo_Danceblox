@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  API_PORT: "7102"
+  KAFKA_URL: broker:9092
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: roblox-service-services-roblox-service--env
+  name: services-roblox-service--env
